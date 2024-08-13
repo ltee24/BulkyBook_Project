@@ -1,6 +1,7 @@
 ﻿@model OrderVM
 
 <form method="post">
+    <input asp-for="OrderHeader.Id" hidden/>
     <br />
     <div class="container">
         <div class="card">
@@ -235,7 +236,7 @@
                                 </div>
                             </div>
                             @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee)){
-                            <input type="submit" class="btn btn-warning form-control my-1" value="Update Order Details" />
+                                <button type="submit" class="btn btn-warning form-control my-1" asp-action="updateOrderDetail" >Update Order Ddetails</button>
                             }
 
                         </div>
@@ -257,8 +258,8 @@
                                             <div class="col-8">
 
                                                 <h6 class="my-0 text-primary">@detail.Product.Title</h6>
-                                                <small class="text-muted">Price :@detail.Price</small><br />
-                                                <small class="text-muted">Quantity : @detail.Count.ToString("c")</small>
+                                                <small class="text-muted">Price :@detail.Price.ToString("c")</small><br />
+                                                <small class="text-muted">Quantity : @detail.Count</small>
                                             </div>
                                             <div class="col-4 text-end">
                                                 <p class="text-success">@((detail.Price * detail.Count).ToString("c"))</p>
