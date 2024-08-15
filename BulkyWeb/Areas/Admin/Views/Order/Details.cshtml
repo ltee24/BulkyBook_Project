@@ -303,11 +303,11 @@
                                     {
 
 
-                                        <button type="submit" asp-action="shipOrder" onclick="return ValidateInput()" class="btn btn-primary form-control my-1">Ship Order</button>
+                                        <button type="submit" asp-action="shipOrder" onclick="return validateInput()" class="btn btn-primary form-control my-1">Ship Order</button>
                                     }
-                                    @if (Model.OrderHeader.OrderStatus != SD.StatusRefunded && Model.OrderHeader.OrderStatus != SD.StatusCancelled && Model.OrderHeader.OrderStatus != SD.StatusRefunded)
+                                    @if (Model.OrderHeader.OrderStatus != SD.StatusRefunded && Model.OrderHeader.OrderStatus != SD.StatusCancelled && Model.OrderHeader.OrderStatus != SD.StatusShipped)
                                     {
-                                        <button type="submit" class="btn btn-danger form-control my-1">Cancel Order</button>
+                                        <button type="submit" asp-action="cancelOrder" class="btn btn-danger form-control my-1">Cancel Order</button>
 
                                     }
 
@@ -324,8 +324,8 @@
     @section Scripts{
     <partial name="_ValidationScriptsPartial"/>
     <script>
-        function ValidateInput(){
-            if(document.getElementById("trackingNumber").value == ""{
+        function validateInput(){
+            if(document.getElementById("trackingNumber").value == ""){
                 Swal.fire({
                     icon : "error",
                     title:"oops...",
@@ -334,7 +334,7 @@
                 })
                 return false;
             }
-             if(document.getElementById("carrier").value == ""{
+             if(document.getElementById("carrier").value == ""){
                 Swal.fire({
                     icon : "error",
                     title:"oops...",

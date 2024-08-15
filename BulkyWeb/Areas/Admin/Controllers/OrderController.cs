@@ -85,7 +85,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             orderHeader.TrackingNumber = _orderVM.OrderHeader.TrackingNumber;
             orderHeader.Carrier = _orderVM.OrderHeader.Carrier;
             orderHeader.TrackingNumber = _orderVM.OrderHeader.TrackingNumber;
-            orderHeader.OrderStatus = _orderVM.OrderHeader.OrderStatus;
+            orderHeader.OrderStatus = SD.StatusShipped;
             orderHeader.ShippingDate = DateTime.Now;
             if(orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
             {
@@ -101,6 +101,20 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
 
            
+        }
+
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        public IActionResult cancelOrder()
+        {
+            var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == _orderVM.OrderHeader.Id);
+
+            _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.StatusCancelled, SD.StatusCancelled);
+            _unitOfWork.Save();
+            TempData["Success"] = "Order Canceled Successfully";
+
+            return RedirectToAction(nameof(Details), new { orderId = _orderVM.OrderHeader.Id });
+
         }
 
         #region API Calls
